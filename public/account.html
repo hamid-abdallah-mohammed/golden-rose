@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حسابي | Golden Rose</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: #0c0b09;
+  color: #f8f3e9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  padding: 18px 7%;
+  border-bottom: 1px solid #302a20;
+  background: #100f0c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #d6b46a;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.home-link {
+  color: #d6b46a;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 15px;
+}
+
+.account-card {
+  width: 100%;
+  max-width: 460px;
+  background: #15130f;
+  border: 1px solid #3b3223;
+  border-radius: 10px;
+  padding: 32px;
+  box-shadow: 0 15px 50px rgba(0,0,0,.35);
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.brand .rose {
+  font-size: 37px;
+}
+
+.brand h1 {
+  color: #d6b46a;
+  font-size: 26px;
+  margin: 5px 0;
+}
+
+.brand p {
+  color: #aaa08e;
+  font-size: 13px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-bottom: 25px;
+}
+
+.tab {
+  background: #211d15;
+  border: 1px solid #393124;
+  color: #bdb3a1;
+  padding: 10px 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.tab.active {
+  background: #c5a15b;
+  color: #17130c;
+  border-color: #c5a15b;
+  font-weight: 700;
+}
+
+.form-title {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.form-subtitle {
+  color: #a99f8e;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  color: #d7cdbb;
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+
+input {
+  width: 100%;
+  background: #0e0d0a;
+  border: 1px solid #393124;
+  border-radius: 5px;
+  padding: 12px;
+  color: white;
+  font-family: inherit;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #c5a15b;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #c5a15b;
+  border: none;
+  border-radius: 5px;
+  color: #17130c;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.submit-btn:hover {
+  background: #dfc17f;
+}
+
+.message {
+  display: none;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.message.error {
+  display: block;
+  background: #491e1e;
+  color: #ffbaba;
+}
+
+.message.success {
+  display: block;
+  background: #193c28;
+  color: #b7f3c9;
+}
+
+.form {
+  display: none;
+}
+
+.form.active {
+  display: block;
+}
+
+.session-box {
+  display: none;
+  text-align: center;
+}
+
+.session-box h2 {
+  color: #d6b46a;
+  margin-bottom: 10px;
+}
+
+.session-box p {
+  color: #bdb3a1;
+  margin-bottom: 20px;
+  line-height: 2;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b85a50;
+  background: transparent;
+  color: #ffaaa0;
+  border-radius: 5px;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+footer {
+  border-top: 1px solid #302a20;
+  text-align: center;
+  padding: 18px;
+  color: #938a79;
+  font-size: 12px;
+}
+
+@media(max-width: 450px) {
+  .account-card {
+    padding: 23px 17px;
+  }
+
+  header {
+    padding: 15px 5%;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="/" class="logo" style="text-decoration:none">GOLDEN ROSE 🌹</a>
+  <a href="/" class="home-link">العودة للمتجر</a>
+</header>
+
+<main>
+  <div class="account-card">
+
+    <div class="brand">
+      <div class="rose">🌹</div>
+      <h1>GOLDEN ROSE</h1>
+      <p>مرحباً بك في عالم العطور الفاخرة</p>
+    </div>
+
+    <div id="accountForms">
+
+      <div class="tabs">
+        <button class="tab active" onclick="showForm('login',this)">دخول العملاء</button>
+        <button class="tab" onclick="showForm('register',this)">حساب جديد</button>
+        <button class="tab" onclick="showForm('admin',this)">دخول الأدمن</button>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <!-- Customer Login -->
+      <form class="form active" id="loginForm">
+        <h2 class="form-title">تسجيل دخول العملاء</h2>
+        <p class="form-subtitle">سجل دخولك لمتابعة مشترياتك وطلباتك</p>
+
+        <div class="field">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="loginEmail" required placeholder="example@email.com">
+        </div>
+
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input type="password" id="loginPassword" required placeholder="أدخل كلمة المرور">
+        </div>
+
+        <button class="submit-btn" type="submit">تسجيل الدخول</button>
+      </form>
+
+      <!-- Customer Registration -->
+      <form class="form" id="registerForm">
+        <h2 class="form-title">إنشاء حساب جديد</h2>
+        <p class="form-subtitle">انضم إلى عائلة Golden Rose</p>
+
+        <div class="field">
+          <label>الاسم الكامل</label>
+          <input type="text" id="registerName" required placeholder="الاسم الكامل">
+        </div>
+
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input type="tel" id="registerPhone" placeholder="رقم الهاتف">
+        </div>
+
+        <div class="field">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="registerEmail" required placeholder="example@email.com">
+        </div>
+
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input type="password" id="registerPassword" minlength="6" required placeholder="6 أحرف على الأقل">
+        </div>
+
+        <button class="submit-btn" type="submit">إنشاء الحساب</button>
+      </form>
+
+      <!-- Admin Login -->
+      <form class="form" id="adminForm">
+        <h2 class="form-title">دخول إدارة المتجر</h2>
+        <p class="form-subtitle">هذه المنطقة مخصصة لإدارة Golden Rose</p>
+
+        <div class="field">
+          <label>اسم المستخدم</label>
+          <input type="text" id="adminUsername" required placeholder="اسم المستخدم">
+        </div>
+
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input type="password" id="adminPassword" required placeholder="كلمة المرور">
+        </div>
+
+        <button class="submit-btn" type="submit">دخول لوحة الإدارة</button>
+      </form>
+
+    </div>
+
+    <!-- Logged In Session -->
+    <div class="session-box" id="sessionBox">
+      <div style="font-size:40px;margin-bottom:12px">🌹</div>
+      <h2>مرحباً بك</h2>
+      <p id="sessionName"></p>
+      <a id="dashboardLink" href="/" class="submit-btn" style="display:block;text-decoration:none">
+        متابعة إلى المتجر
+      </a>
+      <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  جميع الحقوق محفوظة © Golden Rose 2026
+</footer>
+
+<script>
+const TOKEN_KEY = "golden_rose_token";
+const USER_KEY = "golden_rose_user";
+
+function showMessage(message, type) {
+  const box = document.getElementById("message");
+  box.textContent = message;
+  box.className = "message " + type;
+}
+
+function showForm(name, button) {
+  document.querySelectorAll(".form").forEach(form => {
+    form.classList.remove("active");
+  });
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  document.getElementById(name + "Form").classList.add("active");
+  button.classList.add("active");
+
+  document.getElementById("message").className = "message";
+}
+
+async function apiRequest(url, data) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "حدث خطأ");
+  }
+
+  return result;
+}
+
+function saveSession(result) {
+  localStorage.setItem(TOKEN_KEY, result.token);
+  localStorage.setItem(USER_KEY, JSON.stringify(result.user));
+
+  window.location.href = "/";
+}
+
+// Customer Login
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  try {
+    const result = await apiRequest("/api/auth/login", {
+      email: document.getElementById("loginEmail").value,
+      password: document.getElementById("loginPassword").value
+    });
+
+    saveSession(result);
+
+  } catch(error) {
+    showMessage(error.message, "error");
+  }
+});
+
+// Customer Registration
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  try {
+    const result = await apiRequest("/api/auth/register", {
+      name: document.getElementById("registerName").value,
+      phone: document.getElementById("registerPhone").value,
+      email: document.getElementById("registerEmail").value,
+      password: document.getElementById("registerPassword").value
+    });
+
+    saveSession(result);
+
+  } catch(error) {
+    showMessage(error.message, "error");
+  }
+});
+
+// Admin Login
+document.getElementById("adminForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  try {
+    const result = await apiRequest("/api/admin/login", {
+      username: document.getElementById("adminUsername").value,
+      password: document.getElementById("adminPassword").value
+    });
+
+    saveSession(result);
+
+  } catch(error) {
+    showMessage(error.message, "error");
+  }
+});
+
+// Check Existing Session
+async function checkSession() {
+  const token = localStorage.getItem(TOKEN_KEY);
+
+  if (!token) return;
+
+  try {
+    const response = await fetch("/api/auth/me", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!response.ok) throw new Error("انتهت الجلسة");
+
+    const result = await response.json();
+    const user = result.user;
+
+    document.getElementById("accountForms").style.display = "none";
+    document.getElementById("sessionBox").style.display = "block";
+
+    document.getElementById("sessionName").textContent =
+      user.role === "admin"
+        ? "أهلاً بك في إدارة المتجر"
+        : "أهلاً بك " + user.name;
+
+    if (user.role === "admin") {
+      document.getElementById("dashboardLink").href = "/admin.html";
+      document.getElementById("dashboardLink").textContent = "لوحة الإدارة";
+    } else {
+      document.getElementById("dashboardLink").href = "/";
+      document.getElementById("dashboardLink").textContent = "متابعة التسوق";
+    }
+
+  } catch(error) {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+  }
+}
+
+// Logout
+async function logout() {
+  const token = localStorage.getItem(TOKEN_KEY);
+
+  try {
+    if (token) {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+    }
+  } finally {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    window.location.href = "/";
+  }
+}
+
+checkSession();
+</script>
+
+</body>
+</html>
