@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Rose | عالم العطور الفاخرة</title>
+  <meta name="description" content="اكتشف عالم Golden Rose من العطور الفاخرة">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #0c0b09;
+      color: #f8f3e9;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      min-height: 85px;
+      padding: 15px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #29251d;
+      background: #100f0c;
+    }
+
+    .logo {
+      color: #d6b46a;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+      color: #ddd4c5;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #d6b46a;
+    }
+
+    .account-btn {
+      border: 1px solid #b99a5b;
+      color: #d6b46a;
+      padding: 9px 22px;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+
+    .hero {
+      min-height: 510px;
+      padding: 80px 8%;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(12,11,9,.30), #0c0b09 95%),
+        url('https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1800&q=85')
+        center/cover;
+    }
+
+    .hero-content {
+      max-width: 550px;
+    }
+
+    .eyebrow {
+      color: #d6b46a;
+      letter-spacing: 3px;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 5vw, 58px);
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #d6b46a;
+    }
+
+    .hero p {
+      color: #c7bfae;
+      line-height: 2;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .gold-btn {
+      display: inline-block;
+      background: #c5a15b;
+      color: #17130c;
+      padding: 12px 30px;
+      border-radius: 4px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .gold-btn:hover {
+      background: #e0c17e;
+    }
+
+    .section {
+      padding: 65px 7%;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .section-heading small {
+      color: #c5a15b;
+      letter-spacing: 2px;
+    }
+
+    .section-heading h2 {
+      font-size: 29px;
+      margin-top: 8px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .category {
+      min-height: 160px;
+      border: 1px solid #373024;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: linear-gradient(145deg, #201b12, #11100d);
+      border-radius: 6px;
+      transition: .3s;
+    }
+
+    .category:hover {
+      border-color: #c5a15b;
+      transform: translateY(-5px);
+    }
+
+    .category span {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .category h3 {
+      color: #e1c88f;
+      font-size: 17px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .product {
+      background: #171510;
+      border: 1px solid #302a20;
+      border-radius: 7px;
+      overflow: hidden;
+      transition: .3s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      border-color: #a8894d;
+    }
+
+    .product img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      background: #252017;
+    }
+
+    .product-info {
+      padding: 17px;
+    }
+
+    .product-info small {
+      color: #c5a15b;
+    }
+
+    .product-info h3 {
+      margin: 7px 0;
+      font-size: 17px;
+    }
+
+    .price {
+      color: #d6b46a;
+      font-weight: 700;
+      margin-bottom: 13px;
+    }
+
+    .add-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #9b8049;
+      color: #d6b46a;
+      padding: 9px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .add-btn:hover {
+      background: #c5a15b;
+      color: #17130c;
+    }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 40px;
+      color: #aaa08e;
+    }
+
+    .about {
+      background: #15130f;
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 650px;
+      margin: 15px auto 0;
+      color: #bcb3a3;
+      line-height: 2.2;
+    }
+
+    footer {
+      border-top: 1px solid #302a20;
+      text-align: center;
+      padding: 25px;
+      color: #938a79;
+      font-size: 13px;
+    }
+
+    @media(max-width: 850px) {
+      nav {
+        display: none;
+      }
+
+      .categories,
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero {
+        min-height: 430px;
+        padding: 60px 7%;
+      }
+    }
+
+    @media(max-width: 450px) {
+      header {
+        padding: 15px 4%;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .account-btn {
+        padding: 7px 12px;
+      }
+
+      .section {
+        padding: 45px 5%;
+      }
+
+      .product img {
+        height: 175px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="/" class="logo">GOLDEN ROSE 🌹</a>
+
+  <nav>
+    <a href="/">الرئيسية</a>
+    <a href="#categories">الأقسام</a>
+    <a href="#products">العطور</a>
+    <a href="#about">من نحن</a>
+  </nav>
+
+  <a href="/account.html" class="account-btn">حسابي</a>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">GOLDEN ROSE COLLECTION</div>
+    <h1>لأن الأناقة تبدأ من <span>عطرك</span></h1>
+    <p>
+      اكتشف مجموعة مختارة من العطور الفاخرة،
+      واجعل لكل لحظة بصمتها الخاصة.
+    </p>
+    <a href="#products" class="gold-btn">اكتشف العطور</a>
+  </div>
+</section>
+
+<section class="section" id="categories">
+  <div class="section-heading">
+    <small>OUR COLLECTION</small>
+    <h2>تسوّق حسب القسم</h2>
+  </div>
+
+  <div class="categories">
+    <a class="category" href="#products" onclick="filterCategory('رجالي')">
+      <span>♛</span>
+      <h3>عطور رجالية</h3>
+    </a>
+
+    <a class="category" href="#products" onclick="filterCategory('نسائي')">
+      <span>🌹</span>
+      <h3>عطور نسائية</h3>
+    </a>
+
+    <a class="category" href="#products" onclick="filterCategory('مشترك')">
+      <span>✧</span>
+      <h3>عطور مشتركة</h3>
+    </a>
+
+    <a class="category" href="#products" onclick="filterCategory('عود')">
+      <span>♨</span>
+      <h3>العود والبخور</h3>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="section-heading">
+    <small>EXCLUSIVE PERFUMES</small>
+    <h2>عطورنا المميزة</h2>
+  </div>
+
+  <div class="products" id="productsList">
+    <div class="empty">جاري تحميل العطور...</div>
+  </div>
+</section>
+
+<section class="section about" id="about">
+  <div class="section-heading">
+    <small>OUR STORY</small>
+    <h2>عن Golden Rose</h2>
+  </div>
+
+  <p>
+    في Golden Rose نؤمن أن العطر ليس مجرد رائحة،
+    بل هو شخصية وذكرى وبصمة لا تُنسى.
+    اختر عطرك واجعل حضورك مختلفاً.
+  </p>
+</section>
+
+<footer>
+  <div class="logo">GOLDEN ROSE</div>
+  <p>جمالك يبدأ من التفاصيل 🌹</p>
+  <p>جميع الحقوق محفوظة © Golden Rose 2026</p>
+</footer>
+
+<script>
+  let allPerfumes = [];
+
+  async function loadPerfumes() {
+    const container = document.getElementById("productsList");
+
+    try {
+      const response = await fetch("/api/perfumes");
+
+      if (!response.ok) throw new Error("تعذر تحميل المنتجات");
+
+      allPerfumes = await response.json();
+      displayPerfumes(allPerfumes);
+
+    } catch (error) {
+      container.innerHTML =
+        '<div class="empty">تعذر تحميل العطور حالياً. حاول مرة أخرى لاحقاً.</div>';
+    }
+  }
+
+  function displayPerfumes(perfumes) {
+    const container = document.getElementById("productsList");
+
+    if (!perfumes.length) {
+      container.innerHTML =
+        '<div class="empty">لا توجد عطور مضافة حالياً. ترقبوا مجموعتنا قريباً 🌹</div>';
+      return;
+    }
+
+    container.innerHTML = perfumes.map(perfume => `
+      <div class="product">
+        <img
+          src="${escapeHTML(perfume.image || 'https://placehold.co/500x500/201b12/c5a15b?text=Golden+Rose')}"
+          alt="${escapeHTML(perfume.name)}"
+          onerror="this.src='https://placehold.co/500x500/201b12/c5a15b?text=Golden+Rose'"
+        >
+
+        <div class="product-info">
+          <small>${escapeHTML(perfume.brand || "Golden Rose")}</small>
+          <h3>${escapeHTML(perfume.name)}</h3>
+          <div class="price">${Number(perfume.price).toLocaleString("en-US")} جنيه</div>
+          <button class="add-btn" onclick="addToCart(${Number(perfume.id)})">
+            أضف إلى السلة
+          </button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function filterCategory(category) {
+    const filtered = allPerfumes.filter(p => p.category === category);
+    displayPerfumes(filtered);
+  }
+
+  async function addToCart(perfumeId) {
+    const token = localStorage.getItem("golden_rose_token");
+
+    if (!token) {
+      alert("يرجى تسجيل الدخول أولاً لإضافة العطور إلى السلة");
+      window.location.href = "/account.html";
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          perfume_id: perfumeId,
+          quantity: 1
+        })
+      });
+
+      const result = await response.json();
+      alert(result.message || "تم تنفيذ الطلب");
+
+    } catch (error) {
+      alert("تعذر الاتصال بالخادم");
+    }
+  }
+
+  loadPerfumes();
+</script>
+
+</body>
+</html>
