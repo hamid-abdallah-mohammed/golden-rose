@@ -1,1 +1,390 @@
 
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة الإدارة | Golden Rose</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Cairo,sans-serif;background:#0c0b09;color:#f8f3e9}
+header{background:#15130f;border-bottom:1px solid #393124;padding:16px 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{color:#d6b46a;font-size:22px;font-weight:800}
+.header-actions{display:flex;gap:12px;align-items:center}
+a{color:#d6b46a;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.logout{background:transparent;border:1px solid #a95349;color:#ffaaa0;padding:8px 15px;border-radius:5px}
+.container{padding:30px 5%;max-width:1400px;margin:auto}
+.welcome{margin-bottom:25px}
+.welcome h1{font-size:25px;color:#d6b46a}
+.welcome p{color:#a99f8e;font-size:13px;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:30px}
+.stat{background:#171510;border:1px solid #393124;padding:20px;border-radius:7px}
+.stat small{color:#a99f8e}
+.stat h2{color:#d6b46a;font-size:25px;margin-top:8px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid #393124;padding-bottom:15px;margin-bottom:25px}
+.tab{background:#211d15;border:1px solid #393124;color:#c9bdab;padding:10px 20px;border-radius:5px}
+.tab.active{background:#c5a15b;color:#17130c;font-weight:700}
+.panel{display:none}
+.panel.active{display:block}
+.panel h2{font-size:21px;margin-bottom:20px}
+.form-card{background:#171510;border:1px solid #393124;border-radius:7px;padding:22px;margin-bottom:25px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.field label{display:block;color:#d7cdbb;font-size:13px;margin-bottom:6px}
+input,select,textarea{width:100%;background:#0e0d0a;border:1px solid #393124;border-radius:5px;padding:11px;color:white;font-family:inherit;outline:none}
+textarea{resize:vertical;min-height:90px}
+input:focus,select:focus,textarea:focus{border-color:#c5a15b}
+.gold-btn{background:#c5a15b;color:#17130c;border:0;padding:11px 22px;border-radius:5px;font-weight:700;margin-top:17px}
+.cancel-btn{background:#393124;color:white;border:0;padding:11px 18px;border-radius:5px;margin-top:17px}
+.table-wrap{overflow-x:auto;background:#171510;border:1px solid #393124;border-radius:7px}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:13px;border-bottom:1px solid #302a20;text-align:right;font-size:13px}
+th{color:#d6b46a;background:#211d15}
+td{color:#ddd4c5}
+.action-btn{padding:6px 10px;border-radius:4px;border:0;margin:2px;font-size:12px}
+.edit-btn{background:#66552f;color:white}
+.delete-btn{background:#632d29;color:white}
+.status-select{min-width:130px}
+.message{margin-bottom:15px;color:#d6b46a;font-size:13px;min-height:20px}
+.empty{text-align:center;padding:30px;color:#aaa08e}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.container{padding:22px 4%}.form-grid{grid-template-columns:1fr}.logo{font-size:17px}.welcome h1{font-size:21px}.tab{padding:9px 12px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">GOLDEN ROSE 🌹</div>
+  <div class="header-actions">
+    <a href="/">زيارة المتجر</a>
+    <button class="logout" onclick="logout()">تسجيل الخروج</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="welcome">
+    <h1>لوحة إدارة المتجر</h1>
+    <p>مرحباً بك في لوحة التحكم الخاصة بـ Golden Rose</p>
+  </div>
+
+  <div class="message" id="message"></div>
+
+  <section class="stats">
+    <div class="stat"><small>إجمالي العطور</small><h2 id="productsCount">0</h2></div>
+    <div class="stat"><small>إجمالي الطلبات</small><h2 id="ordersCount">0</h2></div>
+    <div class="stat"><small>عدد العملاء</small><h2 id="customersCount">0</h2></div>
+    <div class="stat"><small>إجمالي المبيعات</small><h2 id="salesCount">0</h2></div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showPanel('products',this)">العطور والمنتجات</button>
+    <button class="tab" onclick="showPanel('orders',this)">الطلبات</button>
+    <button class="tab" onclick="showPanel('customers',this)">العملاء</button>
+  </div>
+
+  <section class="panel active" id="productsPanel">
+    <h2>إدارة العطور</h2>
+    <div class="form-card">
+      <h3 id="formTitle">إضافة عطر جديد</h3>
+      <form id="perfumeForm">
+        <input type="hidden" id="perfumeId">
+        <div class="form-grid">
+          <div class="field"><label>اسم العطر</label><input id="name" required></div>
+          <div class="field"><label>العلامة التجارية</label><input id="brand"></div>
+          <div class="field">
+            <label>القسم</label>
+            <select id="category" required>
+              <option value="">اختر القسم</option>
+              <option value="رجالي">رجالي</option>
+              <option value="نسائي">نسائي</option>
+              <option value="مشترك">مشترك</option>
+              <option value="عود">عود وبخور</option>
+            </select>
+          </div>
+          <div class="field"><label>السعر بالجنيه</label><input id="price" type="number" min="0" step="0.01" required></div>
+          <div class="field"><label>الكمية المتوفرة</label><input id="stock" type="number" min="0" step="1" required></div>
+          <div class="field"><label>رابط صورة العطر</label><input id="image" type="url" placeholder="https://..."></div>
+          <div class="field" style="grid-column:1/-1"><label>وصف العطر</label><textarea id="description"></textarea></div>
+        </div>
+        <button class="gold-btn" type="submit" id="saveBtn">إضافة العطر</button>
+        <button class="cancel-btn" type="button" id="cancelBtn" onclick="resetForm()" hidden>إلغاء التعديل</button>
+      </form>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>العطر</th><th>القسم</th><th>السعر</th><th>المخزون</th><th>الإجراءات</th></tr></thead>
+        <tbody id="productsTable"><tr><td colspan="5" class="empty">جاري التحميل...</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="ordersPanel">
+    <h2>إدارة الطلبات</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>رقم الطلب</th><th>العميل</th><th>الهاتف</th><th>الإجمالي</th><th>الحالة</th><th>التاريخ</th><th>التحديث</th></tr></thead>
+        <tbody id="ordersTable"><tr><td colspan="7" class="empty">جاري التحميل...</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="customersPanel">
+    <h2>العملاء المسجلون</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>الاسم</th><th>البريد الإلكتروني</th><th>الهاتف</th><th>تاريخ التسجيل</th></tr></thead>
+        <tbody id="customersTable"><tr><td colspan="4" class="empty">جاري التحميل...</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+const TOKEN_KEY="golden_rose_token";
+const USER_KEY="golden_rose_user";
+const token=localStorage.getItem(TOKEN_KEY);
+let perfumes=[];
+
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[char]);
+}
+
+function showMessage(text){
+  const box=document.getElementById("message");
+  box.textContent=text;
+  setTimeout(()=>box.textContent="",4000);
+}
+
+async function api(url,options={}){
+  const response=await fetch(url,{
+    ...options,
+    headers:{
+      ...(options.headers||{}),
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+token
+    }
+  });
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.message||"حدث خطأ");
+  return data;
+}
+
+async function verifyAdmin(){
+  if(!token){window.location.href="/account.html";return false;}
+  try{
+    const result=await api("/api/auth/me");
+    if(result.user.role!=="admin")throw new Error("غير مسموح بالدخول");
+    return true;
+  }catch(error){
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    window.location.href="/account.html";
+    return false;
+  }
+}
+
+function showPanel(name,button){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById(name+"Panel").classList.add("active");
+  button.classList.add("active");
+  if(name==="orders")loadOrders();
+  if(name==="customers")loadCustomers();
+}
+
+async function loadStats(){
+  try{
+    const s=await api("/api/admin/stats");
+    document.getElementById("productsCount").textContent=s.products;
+    document.getElementById("ordersCount").textContent=s.orders;
+    document.getElementById("customersCount").textContent=s.customers;
+    document.getElementById("salesCount").textContent=Number(s.sales).toLocaleString("en-US")+" جنيه";
+  }catch(e){showMessage(e.message);}
+}
+
+async function loadProducts(){
+  const tbody=document.getElementById("productsTable");
+  try{
+    perfumes=await api("/api/perfumes");
+    if(!perfumes.length){
+      tbody.innerHTML='<tr><td colspan="5" class="empty">لا توجد عطور حتى الآن</td></tr>';
+      return;
+    }
+    tbody.innerHTML=perfumes.map(p=>`
+      <tr>
+        <td>${escapeHTML(p.name)}</td>
+        <td>${escapeHTML(p.category)}</td>
+        <td>${Number(p.price).toLocaleString("en-US")} جنيه</td>
+        <td>${p.stock}</td>
+        <td>
+          <button class="action-btn edit-btn" onclick="editPerfume(${Number(p.id)})">تعديل</button>
+          <button class="action-btn delete-btn" onclick="deletePerfume(${Number(p.id)})">حذف</button>
+        </td>
+      </tr>`).join("");
+  }catch(e){
+    tbody.innerHTML='<tr><td colspan="5" class="empty">تعذر تحميل العطور</td></tr>';
+  }
+}
+
+document.getElementById("perfumeForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const id=document.getElementById("perfumeId").value;
+  const data={
+    name:document.getElementById("name").value.trim(),
+    brand:document.getElementById("brand").value.trim(),
+    category:document.getElementById("category").value,
+    price:Number(document.getElementById("price").value),
+    stock:Number(document.getElementById("stock").value),
+    image:document.getElementById("image").value.trim(),
+    description:document.getElementById("description").value.trim()
+  };
+  try{
+    await api(id?`/api/perfumes/${id}`:"/api/perfumes",{
+      method:id?"PUT":"POST",
+      body:JSON.stringify(data)
+    });
+    showMessage(id?"تم تعديل العطر بنجاح":"تمت إضافة العطر بنجاح");
+    resetForm();
+    await loadProducts();
+    await loadStats();
+  }catch(error){showMessage(error.message);}
+});
+
+function editPerfume(id){
+  const p=perfumes.find(item=>Number(item.id)===id);
+  if(!p)return;
+  document.getElementById("perfumeId").value=p.id;
+  document.getElementById("name").value=p.name||"";
+  document.getElementById("brand").value=p.brand||"";
+  document.getElementById("category").value=p.category||"";
+  document.getElementById("price").value=p.price;
+  document.getElementById("stock").value=p.stock;
+  document.getElementById("image").value=p.image||"";
+  document.getElementById("description").value=p.description||"";
+  document.getElementById("formTitle").textContent="تعديل بيانات العطر";
+  document.getElementById("saveBtn").textContent="حفظ التعديلات";
+  document.getElementById("cancelBtn").hidden=false;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetForm(){
+  document.getElementById("perfumeForm").reset();
+  document.getElementById("perfumeId").value="";
+  document.getElementById("formTitle").textContent="إضافة عطر جديد";
+  document.getElementById("saveBtn").textContent="إضافة العطر";
+  document.getElementById("cancelBtn").hidden=true;
+}
+
+async function deletePerfume(id){
+  if(!confirm("هل أنت متأكد من حذف هذا العطر؟"))return;
+  try{
+    const result=await api(`/api/perfumes/${id}`,{method:"DELETE"});
+    showMessage(result.message);
+    await loadProducts();
+    await loadStats();
+  }catch(e){showMessage(e.message);}
+}
+
+async function loadOrders(){
+  const tbody=document.getElementById("ordersTable");
+  try{
+    const orders=await api("/api/admin/orders");
+    if(!orders.length){
+      tbody.innerHTML='<tr><td colspan="7" class="empty">لا توجد طلبات حتى الآن</td></tr>';
+      return;
+    }
+    tbody.innerHTML=orders.map(o=>`
+      <tr>
+        <td>#${o.id}</td>
+        <td>${escapeHTML(o.customer_name||"عميل")}</td>
+        <td>${escapeHTML(o.customer_phone||"-")}</td>
+        <td>${Number(o.total).toLocaleString("en-US")} جنيه</td>
+        <td><select class="status-select" id="status-${o.id}">${statusOptions(o.status)}</select></td>
+        <td>${new Date(o.created_at).toLocaleDateString("ar-EG")}</td>
+        <td>
+          <button class="action-btn edit-btn" onclick="updateOrder(${Number(o.id)})">حفظ</button>
+          <button class="action-btn" style="background:#393124;color:white" onclick="viewOrder(${Number(o.id)})">التفاصيل</button>
+        </td>
+      </tr>`).join("");
+  }catch(e){
+    tbody.innerHTML='<tr><td colspan="7" class="empty">تعذر تحميل الطلبات</td></tr>';
+  }
+}
+
+function statusOptions(current){
+  const statuses=[
+    ["pending","قيد الانتظار"],["confirmed","تم التأكيد"],
+    ["processing","قيد التجهيز"],["shipped","تم الشحن"],
+    ["delivered","تم التسليم"],["cancelled","ملغي"]
+  ];
+  return statuses.map(([value,label])=>
+    `<option value="${value}" ${value===current?"selected":""}>${label}</option>`
+  ).join("");
+}
+
+async function updateOrder(id){
+  const status=document.getElementById(`status-${id}`).value;
+  try{
+    const result=await api(`/api/admin/orders/${id}`,{
+      method:"PATCH",body:JSON.stringify({status})
+    });
+    showMessage(result.message);
+    await loadStats();
+  }catch(e){showMessage(e.message);}
+}
+
+async function viewOrder(id){
+  try{
+    const items=await api(`/api/admin/orders/${id}`);
+    alert(items.map(item=>`${item.perfume_name} - ${item.quantity} قطعة`).join("\n")||"لا توجد تفاصيل");
+  }catch(e){showMessage(e.message);}
+}
+
+async function loadCustomers(){
+  const tbody=document.getElementById("customersTable");
+  try{
+    const customers=await api("/api/admin/customers");
+    if(!customers.length){
+      tbody.innerHTML='<tr><td colspan="4" class="empty">لا يوجد عملاء مسجلون</td></tr>';
+      return;
+    }
+    tbody.innerHTML=customers.map(c=>`
+      <tr>
+        <td>${escapeHTML(c.name)}</td>
+        <td>${escapeHTML(c.email)}</td>
+        <td>${escapeHTML(c.phone||"-")}</td>
+        <td>${new Date(c.created_at).toLocaleDateString("ar-EG")}</td>
+      </tr>`).join("");
+  }catch(e){
+    tbody.innerHTML='<tr><td colspan="4" class="empty">تعذر تحميل العملاء</td></tr>';
+  }
+}
+
+async function logout(){
+  try{
+    await fetch("/api/auth/logout",{
+      method:"POST",
+      headers:{"Authorization":"Bearer "+token}
+    });
+  }finally{
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    window.location.href="/account.html";
+  }
+}
+
+async function startDashboard(){
+  if(await verifyAdmin()){
+    await Promise.all([loadStats(),loadProducts()]);
+  }
+}
+
+startDashboard();
+</script>
+</body>
+</html>
