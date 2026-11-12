@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سلة المشتريات | Golden Rose</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Cairo,sans-serif;background:#0c0b09;color:#f8f3e9}
+header{background:#15130f;border-bottom:1px solid #393124;padding:18px 6%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:800;color:#d6b46a}
+header a{color:#d6b46a;text-decoration:none;font-size:14px}
+.container{max-width:1100px;margin:35px auto;padding:0 20px}
+h1{color:#d6b46a;margin-bottom:8px;font-size:27px}
+.subtitle{color:#a99f8e;margin-bottom:30px;font-size:14px}
+.layout{display:grid;grid-template-columns:1.5fr 1fr;gap:25px}
+.card{background:#171510;border:1px solid #393124;border-radius:8px;padding:22px}
+.card h2{font-size:19px;margin-bottom:20px;color:#d6b46a}
+.item{display:flex;align-items:center;gap:15px;border-bottom:1px solid #393124;padding:15px 0}
+.item img{width:85px;height:90px;object-fit:cover;border-radius:5px;background:#252017}
+.item-info{flex:1}
+.item-info h3{font-size:15px;margin-bottom:5px}
+.item-info p{color:#d6b46a;font-size:14px}
+.quantity{display:flex;align-items:center;gap:10px;margin-top:10px}
+.quantity button{background:#393124;color:white;border:0;width:27px;height:27px;border-radius:4px}
+.quantity span{min-width:20px;text-align:center}
+.remove{background:transparent;border:0;color:#e18b80;font-family:inherit;font-size:12px}
+.total-line{display:flex;justify-content:space-between;margin:15px 0;color:#c9bdab}
+.total-line strong{color:#d6b46a}
+.grand-total{border-top:1px solid #393124;padding-top:18px;font-size:18px}
+.field{margin-bottom:15px}
+.field label{display:block;margin-bottom:7px;color:#d6cbb8;font-size:13px}
+input,textarea{width:100%;padding:12px;background:#0e0d0a;border:1px solid #393124;border-radius:5px;color:white;font-family:inherit;outline:none}
+textarea{height:95px;resize:vertical}
+input:focus,textarea:focus{border-color:#d6b46a}
+.gold-btn{width:100%;padding:13px;background:#c5a15b;color:#17130c;border:0;border-radius:5px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;margin-top:15px}
+.gold-btn:disabled{opacity:.5;cursor:not-allowed}
+.message{color:#d6b46a;margin-bottom:15px;font-size:13px}
+.empty{text-align:center;padding:50px 15px;color:#aaa08e}
+.empty a{color:#d6b46a;display:block;margin-top:15px}
+.notice{font-size:12px;color:#a99f8e;margin-top:12px;line-height:1.8}
+@media(max-width:750px){.layout{grid-template-columns:1fr}.container{margin:25px auto}.card{padding:17px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">GOLDEN ROSE 🌹</div>
+  <a href="/">العودة إلى المتجر</a>
+</header>
+
+<div class="container">
+  <h1>سلة المشتريات</h1>
+  <p class="subtitle">عطورك المفضلة في مكان واحد</p>
+
+  <div id="message" class="message"></div>
+
+  <div class="layout">
+    <section class="card">
+      <h2>منتجاتك</h2>
+      <div id="cartItems">
+        <div class="empty">جاري تحميل السلة...</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>إتمام الطلب</h2>
+
+      <div class="total-line">
+        <span>عدد المنتجات</span>
+        <strong id="itemsCount">0</strong>
+      </div>
+
+      <div class="total-line grand-total">
+        <span>الإجمالي</span>
+        <strong id="totalPrice">0 جنيه</strong>
+      </div>
+
+      <hr style="border:0;border-top:1px solid #393124;margin:22px 0">
+
+      <form id="checkoutForm">
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input id="phone" type="tel" placeholder="أدخل رقم هاتفك" required>
+        </div>
+
+        <div class="field">
+          <label>عنوان التوصيل</label>
+          <textarea id="address" placeholder="المدينة، الحي، الشارع، وأقرب معلم..." required></textarea>
+        </div>
+
+        <button class="gold-btn" id="checkoutBtn" type="submit">تأكيد وإرسال الطلب</button>
+      </form>
+
+      <p class="notice">يرجى التأكد من رقم الهاتف وعنوان التوصيل قبل إرسال الطلب. سيتم تسجيل طلبك في المتجر لمراجعته.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+const token=localStorage.getItem("golden_rose_token");
+let cart=[];
+
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function message(text){
+  document.getElementById("message").textContent=text;
+}
+
+async function api(url,options={}){
+  const response=await fetch(url,{
+    ...options,
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+token,
+      ...(options.headers||{})
+    }
+  });
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.message||"حدث خطأ");
+  return data;
+}
+
+function renderCart(){
+  const container=document.getElementById("cartItems");
+  const count=document.getElementById("itemsCount");
+  const total=document.getElementById("totalPrice");
+
+  if(!cart.length){
+    container.innerHTML='<div class="empty">سلتك فارغة حالياً <a href="/">تصفح العطور الآن</a></div>';
+    count.textContent="0";
+    total.textContent="0 جنيه";
+    document.getElementById("checkoutBtn").disabled=true;
+    return;
+  }
+
+  document.getElementById("checkoutBtn").disabled=false;
+
+  let totalQuantity=0;
+  let totalPrice=0;
+
+  container.innerHTML=cart.map(item=>{
+    const quantity=Number(item.quantity);
+    const price=Number(item.price);
+    totalQuantity+=quantity;
+    totalPrice+=price*quantity;
+
+    const image=item.image||"https://images.unsplash.com/photo-1541643600914-78b084683601?w=300";
+    return `
+      <div class="item">
+        <img src="${escapeHTML(image)}" alt="${escapeHTML(item.name)}">
+        <div class="item-info">
+          <h3>${escapeHTML(item.name)}</h3>
+          <p>${price.toLocaleString("en-US")} جنيه</p>
+          <div class="quantity">
+            <button onclick="changeQuantity(${Number(item.id)},${quantity+1})">+</button>
+            <span>${quantity}</span>
+            <button onclick="changeQuantity(${Number(item.id)},${quantity-1})" ${quantity<=1?"disabled":""}>−</button>
+            <button class="remove" onclick="removeItem(${Number(item.id)})">حذف</button>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+
+  count.textContent=totalQuantity;
+  total.textContent=totalPrice.toLocaleString("en-US")+" جنيه";
+}
+
+async function loadCart(){
+  if(!token){
+    message("يرجى تسجيل الدخول أولاً.");
+    document.getElementById("cartItems").innerHTML=
+      '<div class="empty">يجب تسجيل الدخول لمشاهدة سلتك <a href="/account.html">تسجيل الدخول</a></div>';
+    document.getElementById("checkoutBtn").disabled=true;
+    return;
+  }
+
+  try{
+    cart=await api("/api/cart");
+    renderCart();
+  }catch(error){
+    message(error.message);
+    document.getElementById("cartItems").innerHTML=
+      '<div class="empty">تعذر تحميل السلة. تأكد من تسجيل الدخول.</div>';
+  }
+}
+
+async function changeQuantity(id,quantity){
+  if(quantity<1)return;
+  try{
+    await api(`/api/cart/${id}`,{
+      method:"PATCH",
+      body:JSON.stringify({quantity})
+    });
+    await loadCart();
+  }catch(error){message(error.message);}
+}
+
+async function removeItem(id){
+  if(!confirm("هل تريد حذف هذا المنتج من السلة؟"))return;
+  try{
+    await api(`/api/cart/${id}`,{method:"DELETE"});
+    message("تم حذف المنتج من السلة");
+    await loadCart();
+  }catch(error){message(error.message);}
+}
+
+document.getElementById("checkoutForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  if(!cart.length){
+    message("السلة فارغة");
+    return;
+  }
+
+  const phone=document.getElementById("phone").value.trim();
+  const address=document.getElementById("address").value.trim();
+  const button=document.getElementById("checkoutBtn");
+
+  if(!phone||!address){
+    message("يرجى إدخال رقم الهاتف وعنوان التوصيل");
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent="جاري إرسال الطلب...";
+
+  try{
+    const result=await api("/api/checkout",{
+      method:"POST",
+      body:JSON.stringify({
+        customer_phone:phone,
+        address:address
+      })
+    });
+
+    cart=[];
+    renderCart();
+    document.getElementById("checkoutForm").reset();
+    message(result.message+" 🌹");
+    alert("تم استلام طلبك بنجاح!\nرقم الطلب: "+(result.order?.id||""));
+  }catch(error){
+    message(error.message);
+  }finally{
+    button.textContent="تأكيد وإرسال الطلب";
+    button.disabled=cart.length===0;
+  }
+});
+
+loadCart();
+</script>
+</body>
+</html>
